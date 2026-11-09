@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><title>TestNest Learn Shop</title></head>
+<body>
+<h1>TestNest Learn Shop</h1>
+<p>Temporary shop for Supportly Learn API action test. Code: LEARN-2026.</p>
+<p>Blue Widget Pro $49, 1 year warranty. Shipping 3-5 business days, free over $50, $5 under $50. Returns within 14 days, email support@testnest.example. Open Monday to Saturday 9 AM to 6 PM India time, closed Sunday.</p>
+<button id="loadBtn">Load products</button>
+<button id="cartBtn">View cart</button>
+<input id="q" value="widget"><button id="searchBtn">Search</button>
+<div id="out">No action yet.</div>
+<div>
+<p>Blue Widget Pro - $49 <button onclick="addToCart(1)">Add Blue Widget to cart</button></p>
+<p>Red Gadget Mini - $29 <button onclick="addToCart(2)">Add Red Gadget to cart</button></p>
+</div>
+<script>
+let PRODUCTS=[]; let CART=[];
+function show(o){document.getElementById('out').textContent=JSON.stringify(o);}
+async function loadProducts(){const r=await fetch('api/products.json'); const d=await r.json(); PRODUCTS=d.products; show(d);}
+function addToCart(id){const p=PRODUCTS.find(x=>x.id===id)||{id:id}; CART.push(p); show({added:p,cartCount:CART.length});}
+function viewCart(){show({items:CART,total:CART.reduce((s,i)=>s+(i.price||0),0)});}
+function search(){const q=document.getElementById('q').value.toLowerCase(); show({query:q,results:PRODUCTS.filter(p=>p.name.toLowerCase().includes(q))});}
+document.getElementById('loadBtn').onclick=loadProducts;
+document.getElementById('cartBtn').onclick=viewCart;
+document.getElementById('searchBtn').onclick=search;
+loadProducts();
+</script>
+<script src="https://sitebiz.serv00.net/widget.js" data-agent-id="agt_XOeQnvFi9jsN3PGb" async></script>
+</body></html>
